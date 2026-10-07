@@ -32,7 +32,15 @@ async function saveToSupabase(body: { name: string; email: string; message: stri
   }
 }
 
-export function Contact({ heading, lead }: { heading: string; lead: string }) {
+export function Contact({
+  heading,
+  lead,
+  topics,
+}: {
+  heading: string;
+  lead: string;
+  topics: string[];
+}) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -43,10 +51,12 @@ export function Contact({ heading, lead }: { heading: string; lead: string }) {
       setStatus({ kind: "saved" });
       return;
     }
+    const topic = String(form.get("topic") ?? "").trim();
+    const text = String(form.get("message") ?? "").trim();
     const body = {
       name: String(form.get("name") ?? "").trim(),
       email: String(form.get("email") ?? "").trim(),
-      message: String(form.get("message") ?? "").trim(),
+      message: topic ? `[${topic}] ${text}` : text,
     };
     if (!body.name || !body.email || !body.message) {
       setStatus({ kind: "error", message: "Fill in your name, email and message, then send again." });
@@ -93,7 +103,17 @@ export function Contact({ heading, lead }: { heading: string; lead: string }) {
             <input className="field font-normal" name="email" type="email" autoComplete="email" required />
           </label>
           <label className="grid gap-1.5 font-semibold">
-            What do you need built, or want to ask?
+            What's this about?
+            <select className="field font-normal" name="topic" defaultValue={topics[0]}>
+              {topics.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1.5 font-semibold">
+            Tell me more
             <textarea className="field font-normal" name="message" rows={5} required />
           </label>
           <input
