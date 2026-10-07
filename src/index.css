@@ -1,35 +1,253 @@
 @import "tailwindcss";
 
-@layer base {
-  body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #090A0D;
-    color: #ECEEF2;
+@theme {
+  --font-sans: "Archivo", "Archivo Narrow", "Segoe UI", system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-surface: var(--bg);
+  --color-ink: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-panel: var(--panel);
+  --color-action: var(--btn-bg);
+  --color-action-ink: var(--btn-fg);
+  --color-bright: var(--bright);
+}
+
+/* One palette, two moods. The side decides the tokens. */
+:root,
+[data-side="door"] {
+  --bg: #f5faf6;
+  --fg: #0b3326;
+  --muted: #3f6b58;
+  --line: #b9d3c4;
+  --panel: #e6f1ea;
+  --btn-bg: #0b3326;
+  --btn-fg: #e6f1ea;
+  --bright: #0b3326;
+}
+
+[data-side="engineer"] {
+  --bg: #e6f1ea;
+  --fg: #0b3326;
+  --muted: #3f6b58;
+  --line: #b3cfbf;
+  --panel: #f5faf6;
+  --btn-bg: #0b3326;
+  --btn-fg: #e6f1ea;
+  --bright: #0b3326;
+}
+
+[data-side="founder"] {
+  --bg: #072319;
+  --fg: #e6f1ea;
+  --muted: #9cc4b0;
+  --line: #24503f;
+  --panel: #0b3326;
+  --btn-bg: #bfe3cd;
+  --btn-fg: #072319;
+  --bright: #bfe3cd;
+}
+
+[data-side="cv"] {
+  --bg: #ffffff;
+  --fg: #10231b;
+  --muted: #455a50;
+  --line: #cfd9d3;
+  --panel: #ffffff;
+  --btn-bg: #0b3326;
+  --btn-fg: #ffffff;
+  --bright: #0b3326;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  /* Condensed and heavy, to sit next to the condensed KaltrixOS wordmark. */
+  .display {
+    font-stretch: 62%;
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+  .heading {
+    font-stretch: 70%;
+    font-weight: 750;
+    line-height: 1;
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    text-wrap: balance;
+  }
+  .prose-line {
+    max-width: 62ch;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0 1.5rem;
+    font-weight: 650;
+    border: 2px solid var(--btn-bg);
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .btn:hover {
+    background: transparent;
+    color: var(--fg);
+  }
+  .btn-quiet {
+    background: transparent;
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+  .btn-quiet:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .field {
+    width: 100%;
+    background: var(--panel);
+    color: var(--fg);
+    border: 2px solid var(--line);
+    padding: 0.75rem 0.875rem;
+    font: inherit;
+  }
+  .field:focus {
+    border-color: var(--fg);
+    outline: none;
   }
 }
 
-.font-serif-display {
-  font-family: 'Instrument Serif', Georgia, serif;
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--bright);
+  outline-offset: 3px;
 }
 
-.font-mono-code {
-  font-family: 'JetBrains Mono', monospace;
-  font-variant-numeric: tabular-nums;
+.text-link {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.text-link:hover {
+  text-decoration-color: transparent;
 }
 
-/* Custom subtle scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* The three-year grid: one square per day. */
+.daygrid {
+  --cols: 32;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 3px;
 }
-::-webkit-scrollbar-track {
-  background: #090A0D;
+@media (min-width: 640px) {
+  .daygrid {
+    --cols: 48;
+  }
 }
-::-webkit-scrollbar-thumb {
-  background: #232730;
-  border-radius: 3px;
+@media (min-width: 1024px) {
+  .daygrid {
+    --cols: 74;
+  }
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #333945;
+.daygrid > span {
+  aspect-ratio: 1;
+  border: 1px solid var(--line);
+}
+.daygrid > span.done {
+  background: var(--bright);
+  border-color: var(--bright);
+  animation: fill 0.4s ease-out both;
+  animation-delay: calc(var(--i) * 16ms);
+}
+.daygrid > span.today {
+  background: var(--fg);
+  border-color: var(--fg);
+  outline: 2px solid var(--bright);
+  outline-offset: 2px;
+  animation: fill 0.4s ease-out both, land 0.8s ease-out both;
+  animation-delay: calc(var(--i) * 16ms), calc(var(--i) * 16ms + 200ms);
+}
+@keyframes fill {
+  from {
+    background: transparent;
+    transform: scale(0.3);
+    border-color: var(--line);
+  }
+}
+@keyframes land {
+  0% {
+    outline-offset: 14px;
+    outline-color: transparent;
+  }
+  100% {
+    outline-offset: 2px;
+  }
 }
 
+/* Stepped blocks echo the KaltrixOS mark: each product stands on the last. */
+.step {
+  border: 2px solid var(--fg);
+  padding: 1.25rem;
+}
+.step-live {
+  background: var(--bright);
+  color: var(--bg);
+  border-color: var(--bright);
+}
+.step-dev {
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0 8px,
+    var(--line) 8px 10px
+  );
+}
+.step-planned {
+  border-style: dashed;
+  border-color: var(--muted);
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .daygrid > span.done,
+  .daygrid > span.today {
+    animation: none;
+  }
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  body {
+    font-size: 10.5pt;
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

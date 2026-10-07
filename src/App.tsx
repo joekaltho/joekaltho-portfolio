@@ -1,114 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
-import { CVModal } from './components/CVModal';
-import { ProjectModal } from './components/ProjectModal';
-import { PostModal } from './components/PostModal';
+import { useEffect, useLayoutEffect } from "react";
+import { Cv } from "./components/Cv";
+import { Door } from "./components/Door";
+import { Engineer } from "./components/Engineer";
+import { Footer } from "./components/Footer";
+import { Founder } from "./components/Founder";
+import { Nav } from "./components/Nav";
+import { prefersReducedMotion, useRoute } from "./lib/useRoute";import { useReveal } from "./lib/useReveal";
 
-import { HomePage } from './pages/HomePage';
-import { WorkPage } from './pages/WorkPage';
-import { JourneyPage } from './pages/JourneyPage';
-import { AboutPage } from './pages/AboutPage';
-import { ContactPage } from './pages/ContactPage';
-
-import { projectsData } from './data/projects';
-import { Project, JourneyPost } from './types';
+const titles = {
+  door: "Joe Kaltho | Engineer and founder building KaltrixOS",
+  engineer: "Joe Kaltho | Full-stack engineer for business software",
+  founder: "Joe Kaltho | Founder: $1B in three years, in public",
+  cv: "Joe Kaltho | CV",
+} as const;
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState<string>('home');
-  const [isCVOpen, setIsCVOpen] = useState<boolean>(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [selectedPost, setSelectedPost] = useState<JourneyPost | null>(null);
+  const { page, section } = useRoute();  useReveal(page);
 
-  // Sync with browser URL hash
+  // The side decides the palette for the whole document, including the body.
+  useLayoutEffect(() => {
+    document.documentElement.dataset.side = page;
+    document.title = titles[page];
+  }, [page]);
+
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (['work', 'journey', 'about', 'contact'].includes(hash)) {
-        setCurrentPath(hash);
-      } else {
-        setCurrentPath('home');
-      }
-    };
+    const behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth";
+    if (section) {
+      requestAnimationFrame(() => {
+        document.getElementById(section)?.scrollIntoView({ behavior });
+      });
+    } else {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  }, [page, section]);
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  const handleNavigate = (path: string) => {
-    setCurrentPath(path);
-    window.location.hash = path === 'home' ? '' : path;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const featuredProject = projectsData.find((p) => p.slug === 'kaltrix-os') || projectsData[0];
+  if (page === "door") return <Door />;
+  if (page === "cv") return <Cv />;
 
   return (
-    <div className="min-h-screen bg-[#090A0D] text-[#ECEEF2] flex flex-col justify-between selection:bg-neutral-800 selection:text-white">
-      {/* Top Bar Header */}
-      <Navbar
-        currentPath={currentPath}
-        onNavigate={handleNavigate}
-        onOpenCV={() => setIsCVOpen(true)}
-      />
-
-      {/* Main Page Content */}
-      <div className="flex-1">
-        {currentPath === 'home' && (
-          <HomePage
-            onNavigate={handleNavigate}
-            onSelectProject={(project) => setSelectedProject(project)}
-            featuredProject={featuredProject}
-          />
-        )}
-
-        {currentPath === 'work' && (
-          <WorkPage
-            onSelectProject={(project) => setSelectedProject(project)}
-            onOpenCV={() => setIsCVOpen(true)}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentPath === 'journey' && (
-          <JourneyPage
-            onSelectPost={(post) => setSelectedPost(post)}
-            onNavigate={handleNavigate}
-          />
-        )}
-
-        {currentPath === 'about' && (
-          <AboutPage
-            onNavigate={handleNavigate}
-            onOpenCV={() => setIsCVOpen(true)}
-          />
-        )}
-
-        {currentPath === 'contact' && <ContactPage />}
-      </div>
-
-      {/* Footer */}
-      <Footer
-        onNavigate={handleNavigate}
-        onOpenCV={() => setIsCVOpen(true)}
-      />
-
-      {/* Global Modals */}
-      <CVModal
-        isOpen={isCVOpen}
-        onClose={() => setIsCVOpen(false)}
-      />
-
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
-
-      <PostModal
-        post={selectedPost}
-        onClose={() => setSelectedPost(null)}
-      />
-    </div>
+    <>
+      <Nav page={page} />
+      {page === "engineer" ? <Engineer /> : <Founder />}
+      <Footer />
+    </>
   );
 }

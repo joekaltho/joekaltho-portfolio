@@ -1,0 +1,23 @@
+.daygrid { --cols: 24; }
+@media (min-width: 640px) { .daygrid { --cols: 36; } }
+@media (min-width: 1024px) { .daygrid { --cols: 56; } }
+
+.hero-bg { position: relative; isolation: isolate; overflow: hidden; }
+.hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+}
+.shadow-block { box-shadow: 10px 10px 0 var(--fg); }
+.fade-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
