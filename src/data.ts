@@ -115,10 +115,11 @@ export const process =
 
 // Honest numbers. Update the values and the asOf stamp together.
 export const scoreboard = {
-  asOf: "Sep 2026",
+  asOf: "Nov 1, 2026",
   rows: [
     { label: "Product", value: "KaltrixOS, live since Aug 27, 2026" },
-    { label: "Businesses on it", value: "2" },
+    { label: "Users", value: "18" },
+    { label: "Businesses on it", value: "9" },
     { label: "Revenue", value: "₦0. No paying customers yet." },
     { label: "Team", value: "Solo founder" },
   ],
