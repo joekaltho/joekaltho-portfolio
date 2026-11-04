@@ -5,12 +5,15 @@ import { Engineer } from "./components/Engineer";
 import { Footer } from "./components/Footer";
 import { Founder } from "./components/Founder";
 import { Nav } from "./components/Nav";
-import { prefersReducedMotion, useRoute } from "./lib/useRoute";import { useReveal } from "./lib/useReveal";
+import { Studio } from "./components/studio/Studio";
+import { prefersReducedMotion, useRoute } from "./lib/useRoute";
+import { useReveal } from "./lib/useReveal";
 
 const titles = {
   door: "Joe Kaltho | Engineer and founder building KaltrixOS",
   engineer: "Joe Kaltho | Full-stack engineer for business software",
   founder: "Joe Kaltho | Founder: $1B in three years, in public",
+  studio: "Kaltrix Digitals | Product engineering studio for websites, web apps and MVPs",
   cv: "Joe Kaltho | CV",
 } as const;
 
@@ -36,6 +39,7 @@ export default function App() {
 
   if (page === "door") return <Door />;
   if (page === "cv") return <Cv />;
+  if (page === "studio") return <Studio section={section} />;
 
   return (
     <>

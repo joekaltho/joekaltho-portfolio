@@ -3,6 +3,7 @@
 Two sides, one site.
 
 - **Engineer** (`#/engineer`): the KaltrixOS case study, what I fixed in my own product, services, contact form, printable CV (`#/cv`).
+- **Kaltrix Digitals** (`#/studio`): the studio page. Services, KaltrixOS and Shades Array case studies with real screenshots (`public/work/`), process, FAQ and a project inquiry form. Content lives in `src/studioData.ts`.
 - **Founder** (`#/founder`): $1B in three years. Live day counter, a 1,096-square grid (one square per day), an honest scoreboard, the three-product roadmap and the run so far.
 
 ## Edit the content
@@ -20,7 +21,9 @@ npm run dev
 
 ## Contact form
 
-Copy `.env.example` to `.env` and set `VITE_CONTACT_EMAIL`. If Supabase is configured the form saves `{ name, email, message }` to `VITE_SUPABASE_CONTACT_TABLE`. If not, it opens the visitor's mail app.
+Copy `.env.example` to `.env` and set `VITE_CONTACT_EMAIL`. If Supabase is configured the form saves `{ name, email, message }` to `VITE_SUPABASE_CONTACT_TABLE`. If not, it opens the visitor's mail app. The studio inquiry form uses the same setup and puts company, budget and timeline into the message.
+
+`VITE_WHATSAPP_NUMBER` and `VITE_BOOKING_URL` are optional and only used on `#/studio`. Their buttons stay hidden until set.
 
 ## Deploy
 

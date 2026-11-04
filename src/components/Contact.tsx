@@ -10,7 +10,7 @@ type Status =
 
 const env = import.meta.env as Record<string, string | undefined>;
 
-async function saveToSupabase(body: { name: string; email: string; message: string }) {
+export async function saveToSupabase(body: { name: string; email: string; message: string }) {
   const url = env.VITE_SUPABASE_URL;
   const key = env.VITE_SUPABASE_ANON_KEY;
   if (!url || !key) return false;

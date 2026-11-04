@@ -3,6 +3,7 @@ import type { Page } from "../lib/useRoute";
 const sides = [
   { id: "engineer", label: "Engineer" },
   { id: "founder", label: "Founder" },
+  { id: "studio", label: "Studio" },
 ] as const;
 
 export function Nav({ page }: { page: Page }) {
@@ -17,7 +18,7 @@ export function Nav({ page }: { page: Page }) {
         >
           Joe Kaltho
         </a>
-        <nav aria-label="Switch between the two sides of this site" className="flex border-2 border-ink">
+        <nav aria-label="Sections of this site" className="flex border-2 border-ink">
           {sides.map((s) => {
             const active = page === s.id;
             return (

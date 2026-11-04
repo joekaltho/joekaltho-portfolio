@@ -1,0 +1,312 @@
+/* Kaltrix Digitals: black, white and one restrained green. */
+[data-side="studio"] {
+  --accent: #15803d;
+  --accent-soft: #e7f3ec;
+  --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+.studio-dark {
+  --bg: #0a0a0a;
+  --fg: #f4f4f0;
+  --muted: #a1a19a;
+  --line: #2a2a27;
+  --panel: #131312;
+  --btn-bg: #f4f4f0;
+  --btn-fg: #0a0a0a;
+  --bright: #4ade80;
+  --accent: #4ade80;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.studio section[id] {
+  scroll-margin-top: 4.25rem;
+}
+
+.studio-display {
+  font-stretch: 78%;
+  font-weight: 760;
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.studio-h2 {
+  font-stretch: 80%;
+  font-weight: 720;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.25rem, 4.6vw, 3.75rem);
+  text-wrap: balance;
+}
+.studio-h3 {
+  font-stretch: 85%;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.mono {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.accent {
+  color: var(--accent);
+}
+.dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--accent);
+}
+
+/* The studio button is a little tighter than the base one. */
+.studio .btn {
+  min-height: 3.25rem;
+  padding: 0 1.4rem;
+  gap: 0.6rem;
+}
+.studio .btn .arrow {
+  transition: transform 0.3s var(--ease);
+}
+.studio .btn:hover .arrow,
+.studio .link-arrow:hover .arrow {
+  transform: translateX(3px);
+}
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 650;
+  border-bottom: 1.5px solid currentColor;
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.link-arrow:hover {
+  color: var(--accent);
+}
+
+/* Hero schematic: the request path every product we ship runs on. */
+.schematic {
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+.schematic-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 900px) {
+  .schematic-track {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+.schematic-node {
+  position: relative;
+  padding: 1.25rem 1.25rem 1.4rem 2.75rem;
+  border-top: 1px solid var(--line);
+}
+.schematic-node::before {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  top: 1.6rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--fg);
+}
+.schematic-node.is-lit::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+@media (min-width: 900px) {
+  .schematic-node {
+    padding: 1.5rem 1.25rem 1.6rem;
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+  .schematic-node:first-child {
+    border-left: 0;
+  }
+  .schematic-node::before {
+    position: static;
+    display: block;
+    margin-bottom: 1.1rem;
+  }
+}
+.schematic-node::before {
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* The pulse travels along the top edge on wide screens, down the side on narrow ones. */
+.schematic-pulse {
+  position: absolute;
+  pointer-events: none;
+  background: var(--accent);
+}
+@media (max-width: 899px) {
+  .schematic-pulse {
+    left: 1.45rem;
+    top: 0;
+    width: 2px;
+    height: 18%;
+    animation: pulse-y 5s var(--ease) infinite;
+  }
+}
+@media (min-width: 900px) {
+  .schematic-pulse {
+    top: -1px;
+    left: 0;
+    height: 2px;
+    width: 20%;
+    animation: pulse-x 5s var(--ease) infinite;
+  }
+}
+@keyframes pulse-x {
+  0% { transform: translateX(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(500%); opacity: 0; }
+}
+@keyframes pulse-y {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(560%); opacity: 0; }
+}
+
+/* Browser frame for real screenshots. */
+.frame {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+}
+.frame-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+.frame-bar > i {
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--line);
+}
+.frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 1.2s var(--ease);
+}
+.frame:hover img {
+  transform: scale(1.015);
+}
+
+/* Hairline grids instead of rounded cards. */
+.rule-top {
+  border-top: 1px solid var(--line);
+}
+.rule-fg {
+  border-top: 1.5px solid var(--fg);
+}
+
+/* Offers: the whole column lifts on hover. */
+.offer {
+  transition: background-color 0.35s ease;
+}
+.offer:hover {
+  background: var(--panel);
+}
+
+/* Process line fills as you pass each step. */
+.step-line {
+  height: 1.5px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.step-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1.2s var(--ease);
+}
+.process-step:hover .step-line::after {
+  transform: scaleX(1);
+}
+
+/* FAQ uses native details/summary. */
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq .plus {
+  position: relative;
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+}
+.faq .plus::before,
+.faq .plus::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.35s var(--ease);
+}
+.faq .plus::after {
+  transform: rotate(90deg);
+}
+.faq details[open] .plus::after {
+  transform: rotate(0deg);
+}
+.faq summary:hover h3 {
+  color: var(--accent);
+}
+
+/* Mobile menu. */
+.studio-menu {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.studio-menu[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+.studio-menu > div {
+  overflow: hidden;
+}
+
+.studio .field {
+  background: var(--panel);
+  border-width: 1px;
+}
+.studio-dark .field {
+  border-color: var(--line);
+}
+.studio-dark .field:focus {
+  border-color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schematic-pulse {
+    display: none;
+  }
+  .frame img,
+  .step-line::after,
+  .studio-menu,
+  .faq .plus::before,
+  .faq .plus::after {
+    transition: none !important;
+  }
+}
