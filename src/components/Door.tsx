@@ -53,6 +53,18 @@ export function Door() {
           <span className="btn w-fit group-hover:bg-transparent group-hover:text-ink">Follow the run</span>
         </a>
       </div>
+
+      <a
+        href="#/studio"
+        className="group flex flex-wrap items-center justify-between gap-3 border-t border-line px-5 py-5 transition-colors hover:bg-ink hover:text-surface sm:px-8"
+      >
+        <span className="text-xl font-extrabold leading-none" style={{ fontStretch: "70%" }}>
+          Kaltrix Digitals
+        </span>
+        <span className="text-sm text-muted group-hover:text-surface">
+          The studio: websites, web apps and MVPs built to work in the real world. &rarr;
+        </span>
+      </a>
     </main>
   );
 }

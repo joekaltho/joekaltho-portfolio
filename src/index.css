@@ -61,6 +61,17 @@
   --bright: #0b3326;
 }
 
+[data-side="studio"] {
+  --bg: #fafaf8;
+  --fg: #0a0a0a;
+  --muted: #55554f;
+  --line: #e2e2dc;
+  --panel: #ffffff;
+  --btn-bg: #0a0a0a;
+  --btn-fg: #fafaf8;
+  --bright: #15803d;
+}
+
 html {
   scroll-behavior: smooth;
 }
