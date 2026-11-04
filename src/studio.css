@@ -93,6 +93,7 @@
 }
 .schematic-track {
   position: relative;
+  overflow: hidden;
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -155,7 +156,7 @@
 }
 @media (min-width: 900px) {
   .schematic-pulse {
-    top: -1px;
+    top: 0;
     left: 0;
     height: 2px;
     width: 20%;

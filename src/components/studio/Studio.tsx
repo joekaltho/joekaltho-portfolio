@@ -131,12 +131,18 @@ export function Studio({ section }: { section?: string }) {
 
   return (
     <div className="studio">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-2 focus:text-surface">
+      <a
+        href="#/studio"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("main")?.focus();
+        }}
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-ink focus:px-4 focus:py-2 focus:text-surface">
         Skip to content
       </a>
       <StudioNav section={section} onStart={() => toContact()()} />
 
-      <main id="main">
+      <main id="main" tabIndex={-1} className="outline-none">
         {/* Hero */}
         <section id="top" className="mx-auto max-w-7xl px-5 pb-16 pt-14 sm:px-8 md:pt-20 lg:pb-24">
           <p className="mono flex items-center gap-2.5 text-muted">
